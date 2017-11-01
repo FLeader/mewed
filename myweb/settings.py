@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from oscar.defaults import *
-from oscar import OSCAR_MAIN_TEMPLATE_DIR
+#from oscar import OSCAR_MAIN_TEMPLATE_DIR
 from oscar import get_core_apps
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]+get_core_apps()
 
 SITE_ID = 1
+
 OSCAR_INITIAL_ORDER_STATUS = 'Pending'
 OSCAR_INITIAL_LINE_STATUS = 'Pending'
 OSCAR_ORDER_STATUS_PIPELINE = {
@@ -63,12 +64,18 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'oscar.apps.basket.middleware.BasketMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'myweb.urls'
 #ROOT_URLCONF = 'shop.urls'
+
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+
 AUTHENTICATION_BACKENDS = {
     'oscar.apps.customer.auth_backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -97,6 +104,11 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (  
+    'oscar.apps.customer.auth_backends.EmailBackend',  
+    'django.contrib.auth.backends.ModelBackend',  
+)  
 
 HAYSTACK_CONNECTIONS = {
     'default':{
@@ -140,7 +152,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans' 
 
 TIME_ZONE = 'UTC'
 
