@@ -18,8 +18,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from fish.urls import router as fish_router
- 
+from oscar.app import application
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/',include(fish_router.urls)),
-]
+    url(r'^i18n/',include('django.conf.urls.i18n')),
+    url(r'',include(application.urls)),
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
